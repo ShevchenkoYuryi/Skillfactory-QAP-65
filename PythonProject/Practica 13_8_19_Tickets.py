@@ -16,13 +16,3 @@ if ticket >= 3:
 else:
    print("Сумма вашей скидки (0%) - 0")
    print("Итого к оплате -", sum(price))
-
-
-
-# if ticket > 3:
-#     a = int(sum(price) - sum(price)/10)
-#     print("your purchase amount is:" , a)
-# else:
-#     a = sum(price)
-#     print ("your purchase amount is: ", a)
-# print(price)
