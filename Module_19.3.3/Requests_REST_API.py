@@ -1,5 +1,7 @@
 import json
 
+from PIL import Image
+
 import requests
 
 
@@ -34,11 +36,11 @@ print('-------------------------------------------------------------------------
 # №1 POST /pet/{petId}/uploadImage Uploads an image
 print('№1 POST /pet/{petId}/uploadImage Uploads an image')
 
-file = 'https://www.publy.ru/wp-content/uploads/2018/12/post_5c13e27f24640.jpg'
+image = Image.open('img_1.jpg')
+files = {'file': (image, open(image, 'rb'), 'image/jpeg')}
 
 res = requests.post(f"{base_url}pet/{petId}/uploadImage", headers={'accept': 'application/json',
-                                                                   'Content-Type': 'multipart/form-data'},
-                    files='https://www.publy.ru/wp-content/uploads/2018/12/post_5c13e27f24640.jpg; image/jpeg')
+                                                                   'Content-Type': 'multipart/form-data'}, files=files)
 status_code_list.append(res.status_code)
 
 print('Код статуса запроса:', res.status_code)
