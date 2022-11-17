@@ -106,3 +106,47 @@ class PetFriends:
         except json.decoder.JSONDecodeError:
             result = res.text
         return status, result
+
+
+
+# My HOMEWORK
+    def add_new_pet_without_photo(self, auth_key: json, name: str, animal_type: str,
+                    age: str) -> json:
+        """Метод отправляет (постит) на сервер данные о добавляемом питомце (без фото питомца) и возвращает статус
+        запроса на сервер и результат в формате JSON с данными добавленного питомца"""
+
+        data = MultipartEncoder(
+            fields={
+                'name': name,
+                'animal_type': animal_type,
+                'age': age,
+            })
+        headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
+
+        res = requests.post(self.base_url + 'api/create_pet_simple', headers=headers, data=data)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except json.decoder.JSONDecodeError:
+            result = res.text
+        print(result)
+        return status, result
+
+    def add_photo_of_pet(self, auth_key: json, pet_id: str, pet_photo: str) -> json:
+        """Метод отправляет (постит) на сервер фото ранее созданного питомца и возвращает статус
+        запроса на сервер и результат в формате JSON с данными добавленного питомца"""
+
+        headers = {'auth_key': auth_key['key'], 'Content-Type': 'multipart/form-data'}
+
+        file = {'pet_photo': (pet_photo, open(pet_photo, 'rb'), 'image/jpeg')}
+
+        res = requests.post(self.base_url + f'api/pets/set_photo/{pet_id}', headers=headers, data=file)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except json.decoder.JSONDecodeError:
+            result = res.text
+        print(result)
+        return status, result

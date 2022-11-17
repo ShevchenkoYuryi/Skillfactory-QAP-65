@@ -1,6 +1,6 @@
 import pytest
 from api import PetFriends
-from settings import valid_email, valid_password
+from settings import valid_email, valid_password, wrong_email
 import os
 
 pf = PetFriends()
@@ -89,3 +89,56 @@ def test_successful_update_self_pet_info(name='Задолбашка', animal_typ
     else:
         # если спиок питомцев пустой, то выкидываем исключение с текстом об отсутствии своих питомцев
         raise Exception("There is no my pets")
+
+# My HOMEWORK
+
+def test_get_api_key_wrong_email(email=wrong_email, password=valid_password):
+    """ Проверяем что при неверном email возвращает статус 400"""
+
+    # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status
+    status = pf.get_api_key(email, password)
+
+    # Сверяем полученные данные с нашими ожиданиями
+    assert status == 400
+
+def test_get_api_key_wrong_pass(email=valid_email, password=valid_password):
+    """ Проверяем что при неверном password возвращает статус 400"""
+
+    # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status
+    status = pf.get_api_key(email, password)
+
+    # Сверяем полученные данные с нашими ожиданиями
+    assert status == 400
+
+
+def test_add_new_pet_with_wrong_data(name=123, animal_type='котопес',
+                                     age='200', pet_photo='images/img_1.jpg'):
+    """Пользователь ввел int в поле name."""
+
+    # Получаем полный путь изображения питомца и сохраняем в переменную pet_photo
+    pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 400
+
+def test_add_new_pet_with_wrong_data(name="pirat", animal_type='котопес',
+                                     age=200, pet_photo='images/img_1.jpg'):
+    """Пользователь ввел int в поле age."""
+
+    # Получаем полный путь изображения питомца и сохраняем в переменную pet_photo
+    pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 400
