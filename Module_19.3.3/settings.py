@@ -1,5 +1,6 @@
 # Created user object
-сreate_user = {
+
+create_user = {
   "id": 0,
   "username": "Hanter",
   "firstName": "Jon",
@@ -21,6 +22,32 @@ update_user ={
   "phone": "322589",
   "userStatus": 0
 }
+
+#List of user object
+
+list_u = [
+  {
+  "id": 0,
+  "username": "capitan",
+  "firstName": "Jack",
+  "lastName": "Sparow",
+  "email": "jack@mail.ru",
+  "password": "all4",
+  "phone": "none",
+  "userStatus": 0
+  },
+  {
+  "id": 0,
+  "username": "Master",
+  "firstName": "Leonardo",
+  "lastName": "DaVinchi",
+  "email": "leo@mail.ru",
+  "password": "all5",
+  "phone": "none",
+  "userStatus": 0
+  }
+]
+
 
 # Add a new pet to the store
 body = {
@@ -47,7 +74,7 @@ body_order = {
   "id": 0,
   "petId": 0,
   "quantity": 0,
-  "shipDate": "00/00/0000",
+  "shipDate": "0",
   "status": "placed",
   "complete": True
 }
