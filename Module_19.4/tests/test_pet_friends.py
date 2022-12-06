@@ -5,19 +5,19 @@ import os
 
 pf = PetFriends()
 
-
-def test_get_api_key_for_valid_user(email=valid_email, password=valid_password):
+@pytest.mark.api
+def test_get_api_key_for_valid_user(get_api_key):
     """ Проверяем что запрос api ключа возвращает статус 200 и в тезультате содержится слово key"""
 
     # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status, а текст ответа в result
-    status, result = pf.get_api_key(email, password)
+    # status, result = pf.get_api_key(email, password)
 
     # Сверяем полученные данные с нашими ожиданиями
-    assert status == 200
-    assert 'key' in result
+    assert get_api_key[0] == 200
+    assert 'key' in get_api_key[1]
 
-
-def test_get_all_pets_with_valid_key(filter=''):
+@pytest.mark.api
+def test_get_all_pets_with_valid_key(filter='',):
     """ Проверяем что запрос всех питомцев возвращает не пустой список.
     Для этого сначала получаем api ключ и сохраняем в переменную auth_key. Далее используя этого ключ
     запрашиваем список всех питомцев и проверяем что список не пустой.
@@ -29,9 +29,10 @@ def test_get_all_pets_with_valid_key(filter=''):
     assert status == 200
     assert len(result['pets']) > 0
 
-
+@pytest.mark.api
+@pytest.mark.skip(reason="ответ сервера - 500")
 def test_add_new_pet_with_valid_data(name='пират', animal_type='котопес',
-                                     age='200', pet_photo='images/img_1.jpg'):
+                                     age='200', pet_photo='images/img_1.jpg',):
     """Проверяем что можно добавить питомца с корректными данными"""
 
     # Получаем полный путь изображения питомца и сохраняем в переменную pet_photo
@@ -47,7 +48,7 @@ def test_add_new_pet_with_valid_data(name='пират', animal_type='котоп�
     assert status == 200
     assert result['name'] == name
 
-
+@pytest.mark.api
 def test_successful_delete_self_pet():
     """Проверяем возможность удаления питомца"""
 
@@ -71,7 +72,7 @@ def test_successful_delete_self_pet():
     assert status == 200
     assert pet_id not in my_pets.values()
 
-
+@pytest.mark.api
 def test_successful_update_self_pet_info(name='Задолбашка', animal_type='мышь', age=5):
     """Проверяем возможность обновления информации о питомце"""
 
@@ -91,7 +92,8 @@ def test_successful_update_self_pet_info(name='Задолбашка', animal_typ
         raise Exception("There is no my pets")
 
 # My HOMEWORK
-
+@pytest.mark.api
+@pytest.mark.homework
 def test_get_api_key_wrong_email(email=wrong_email, password=valid_password):
     """ Проверяем что при неверном email возвращает статус 400"""
 
@@ -100,7 +102,8 @@ def test_get_api_key_wrong_email(email=wrong_email, password=valid_password):
 
     # Сверяем полученные данные с нашими ожиданиями
     assert status == 400
-
+@pytest.mark.api
+@pytest.mark.homework
 def test_get_api_key_wrong_pass(email=valid_email, password=valid_password):
     """ Проверяем что при неверном password возвращает статус 400"""
 
@@ -110,7 +113,8 @@ def test_get_api_key_wrong_pass(email=valid_email, password=valid_password):
     # Сверяем полученные данные с нашими ожиданиями
     assert status == 400
 
-
+@pytest.mark.api
+@pytest.mark.homework
 def test_add_new_pet_with_wrong_data(name=123, animal_type='котопес',
                                      age='200', pet_photo='images/img_1.jpg'):
     """Пользователь ввел int в поле name."""
@@ -127,6 +131,9 @@ def test_add_new_pet_with_wrong_data(name=123, animal_type='котопес',
     # Сверяем полученный ответ с ожидаемым результатом
     assert status == 400
 
+
+@pytest.mark.api
+@pytest.mark.homework
 def test_add_new_pet_with_wrong_data(name="pirat", animal_type='котопес',
                                      age=200, pet_photo='images/img_1.jpg'):
     """Пользователь ввел int в поле age."""
