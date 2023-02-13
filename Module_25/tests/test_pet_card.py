@@ -20,9 +20,9 @@ def test_search_example(testing):
     driver = testing
 
     '''Вводим email'''
-    driver.find_element(By.ID, 'email').send_keys('shevsyi@yandex.ru')
+    driver.find_element(By.ID, 'email').send_keys('valid email')
     '''Вводим пароль'''
-    driver.find_element(By.ID, 'pass').send_keys('061786&pkm_pchZH')
+    driver.find_element(By.ID, 'pass').send_keys('valid pass')
     '''Нажимаем на кнопку входа в аккаунт'''
     driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
     # Проверяем, что мы оказались на главной странице пользователя
